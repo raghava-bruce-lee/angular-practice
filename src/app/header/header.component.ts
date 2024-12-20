@@ -1,11 +1,4 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -16,7 +9,7 @@ import { filter, map } from 'rxjs';
   selector: 'app-header',
   imports: [MatToolbarModule, MatButtonModule, MatIconModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
   router = inject(Router);
