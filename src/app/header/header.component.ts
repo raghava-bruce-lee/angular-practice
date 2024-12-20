@@ -43,8 +43,8 @@ export class HeaderComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscriber.unsubscribe());
   }
 
-  onClickAction = output();
+  clickAction = output();
   onClick() {
-    this.onClickAction.emit();
+    this.clickAction.emit();
   }
 }
