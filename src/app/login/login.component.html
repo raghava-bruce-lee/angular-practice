@@ -32,6 +32,9 @@
             <mat-error>Password is <strong>required</strong></mat-error>
           }
         </mat-form-field>
+        @if (userStore.authenticationFailureMsg()) {
+          <mat-error>{{ userStore.authenticationFailureMsg() }}</mat-error>
+        }
       </form>
     </mat-card-content>
     <mat-card-actions>

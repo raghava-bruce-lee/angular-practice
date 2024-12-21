@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {
@@ -13,6 +13,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { useUserStore } from '../core/stores/user';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class LoginFormErrorStateMatcher implements ErrorStateMatcher {
@@ -35,6 +36,8 @@ export class LoginFormErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
+  readonly userStore = inject(useUserStore);
+
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
@@ -48,6 +51,8 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
+    if (!this.loginForm.value.email || !this.loginForm.value.password) return;
+
+    this.userStore.login(this.loginForm.value.email, this.loginForm.value.password);
   }
 }
