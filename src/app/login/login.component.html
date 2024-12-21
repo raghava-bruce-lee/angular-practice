@@ -12,12 +12,8 @@
             matInput
             [formControl]="loginForm.controls.email"
             [errorStateMatcher]="matcher"
-            placeholder="Ex. pat@example.com"
           />
-          @if (
-            loginForm.controls.email.hasError('email') &&
-            !loginForm.controls.email.hasError('required')
-          ) {
+          @if (showValidEmailError) {
             <mat-error>Please enter a valid email address</mat-error>
           }
           @if (loginForm.controls.email.hasError('required')) {

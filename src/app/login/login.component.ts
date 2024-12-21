@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 /** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
+export class LoginFormErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
@@ -40,13 +40,12 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
   });
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new LoginFormErrorStateMatcher();
 
-  // showValidEmailError = computed(() => {
-  //   const email = this.loginForm.get('email');
-  //   console.log(email);
-  //   return email?.hasError('email') && !email?.hasError('required');
-  // });
+  get showValidEmailError() {
+    const emailControl = this.loginForm.controls.email;
+    return emailControl.hasError('email') && !emailControl.hasError('required');
+  }
 
   onSubmit() {
     console.log(this.loginForm.value);
