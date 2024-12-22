@@ -58,6 +58,22 @@ export const useUserStore = signalStore(
             patchState(store, { isAuthenticated: true, authenticationFailureMsg: '' });
             router.navigate(['']);
           });
+      },
+      logout() {
+        spinnerStore.showLoading();
+        authService
+          .logoutWithApi()
+          .pipe(
+            catchError((errorObj) => {
+              console.error(errorObj);
+              return of();
+            }),
+            finalize(spinnerStore.hideLoading)
+          )
+          .subscribe(() => {
+            patchState(store, { isAuthenticated: false });
+            router.navigate(['login']);
+          });
       }
     };
   })

@@ -54,5 +54,6 @@ export class LoginComponent {
     if (!this.loginForm.value.email || !this.loginForm.value.password) return;
 
     this.userStore.login(this.loginForm.value.email, this.loginForm.value.password);
+    this.loginForm.reset();
   }
 }

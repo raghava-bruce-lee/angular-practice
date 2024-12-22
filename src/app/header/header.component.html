@@ -4,4 +4,14 @@
   </button>
 
   <span>{{ headerTitle() }}</span>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="ml-auto">
+    <mat-icon fontIcon="person" />
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="onLogout()">
+      <mat-icon fontIcon="logout" />
+      <span>Logout</span>
+    </button>
+  </mat-menu>
 </mat-toolbar>

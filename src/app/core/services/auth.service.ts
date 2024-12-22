@@ -14,4 +14,8 @@ export class AuthService {
   loginWithApi(email: string, password: string) {
     return this.httpClient.post('auth/login', { email, password });
   }
+
+  logoutWithApi() {
+    return this.httpClient.post('auth/logout', {});
+  }
 }
