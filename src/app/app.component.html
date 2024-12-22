@@ -1,4 +1,11 @@
 <main>
-  <app-default-layout />
+  @if (userStore.isAuthenticated()) {
+    <app-default-layout />
+  }
+  @if (spinnerStore.isLoading()) {
+    <div class="flex items-center justify-center h-screen">
+      <mat-spinner />
+    </div>
+  }
+  <router-outlet />
 </main>
-
