@@ -1,4 +1,4 @@
-import { Component, Inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -26,23 +26,15 @@ interface TodosUpdateDialogData {
     MatSelectModule,
     FormatTodoStatusPipe
   ],
-  templateUrl: './todos-update-dialog.component.html',
-  styleUrl: './todos-update-dialog.component.scss'
+  templateUrl: './todos-update-dialog.component.html'
 })
 export class TodosUpdateDialogComponent {
+  dialogData = inject<TodosUpdateDialogData>(MAT_DIALOG_DATA);
+
   TODO_STATUS = Object.keys(TODO_STATUS);
 
-  dialogTitle = signal('Create');
-  todoTitle = signal('');
-  todoDescription = signal('');
-  todoStatus = signal(TODO_STATUS.NOT_STARTED);
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: TodosUpdateDialogData) {
-    if (data) {
-      this.dialogTitle.set(data.dialogTitle);
-      this.todoTitle.set(data.todoTitle);
-      this.todoDescription.set(data.todoDescription);
-      this.todoStatus.set(data.todoStatus);
-    }
-  }
+  dialogTitle = signal(this.dialogData?.dialogTitle || 'Create');
+  todoTitle = signal(this.dialogData?.todoTitle || '');
+  todoDescription = signal(this.dialogData?.todoDescription || '');
+  todoStatus = signal(this.dialogData?.todoStatus || TODO_STATUS.NOT_STARTED);
 }

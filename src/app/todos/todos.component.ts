@@ -25,8 +25,7 @@ import { FormatTodoStatusPipe } from './todos.status.pipe';
     DatePipe,
     FormatTodoStatusPipe
   ],
-  templateUrl: './todos.component.html',
-  styleUrl: './todos.component.scss'
+  templateUrl: './todos.component.html'
 })
 export class TodosComponent implements OnInit, AfterViewInit {
   readonly spinnerStore = inject(useSpinnerStore);
