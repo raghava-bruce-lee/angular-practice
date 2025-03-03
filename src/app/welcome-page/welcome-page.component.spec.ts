@@ -9,8 +9,7 @@ describe('WelcomePageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WelcomePageComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(WelcomePageComponent);
     component = fixture.componentInstance;
