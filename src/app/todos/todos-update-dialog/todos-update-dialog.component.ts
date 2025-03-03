@@ -7,8 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { TODO_STATUS } from '../todos.model';
 import { FormatTodoStatusPipe } from '../todos.status.pipe';
+import { useTodosStore } from '../../core/stores/todos';
+import { useSpinnerStore } from '../../core/stores/spinner';
 
 interface TodosUpdateDialogData {
+  todoId: string;
   dialogTitle: string;
   todoTitle: string;
   todoDescription: string;
@@ -30,6 +33,8 @@ interface TodosUpdateDialogData {
 })
 export class TodosUpdateDialogComponent {
   dialogData = inject<TodosUpdateDialogData>(MAT_DIALOG_DATA);
+  todoStore = inject(useTodosStore);
+  spinnerStore = inject(useSpinnerStore);
 
   TODO_STATUS = Object.keys(TODO_STATUS);
 
@@ -37,4 +42,30 @@ export class TodosUpdateDialogComponent {
   todoTitle = signal(this.dialogData?.todoTitle || '');
   todoDescription = signal(this.dialogData?.todoDescription || '');
   todoStatus = signal(this.dialogData?.todoStatus || TODO_STATUS.NOT_STARTED);
+
+  async createTodo() {
+    await this.todoStore.createTodo(this.todoTitle(), this.todoDescription(), this.todoStatus());
+  }
+
+  async updateTodo() {
+    await this.todoStore.updateTodo(
+      this.dialogData?.todoId,
+      this.todoTitle(),
+      this.todoDescription(),
+      this.todoStatus()
+    );
+  }
+
+  async onSubmit() {
+    this.spinnerStore.showLoading();
+
+    if (this.dialogTitle() === 'Create') {
+      await this.createTodo();
+    }
+    if (this.dialogTitle() === 'Update') {
+      await this.updateTodo();
+    }
+
+    this.spinnerStore.hideLoading();
+  }
 }

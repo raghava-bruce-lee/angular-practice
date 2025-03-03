@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, computed, inject, OnInit, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  viewChild
+} from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { DatePipe } from '@angular/common';
 import { FormatTodoStatusPipe } from './todos.status.pipe';
+import { TodosConfirmDeleteDialogComponent } from './todos-confirm-delete-dialog/todos-confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-todos',
@@ -41,6 +50,10 @@ export class TodosComponent implements OnInit, AfterViewInit {
 
   constructor() {
     this.dataSource = new MatTableDataSource(this.todosStore.todos());
+
+    effect(() => {
+      this.dataSource.data = this.todoList();
+    });
   }
 
   async ngOnInit() {
@@ -66,7 +79,8 @@ export class TodosComponent implements OnInit, AfterViewInit {
       this.dialog.open(TodosUpdateDialogComponent, {
         width: '500px',
         data: {
-          dialogTitle: 'Edit',
+          dialogTitle: 'Update',
+          todoId: todo._id,
           todoTitle: todo.title,
           todoDescription: todo.description,
           todoStatus: todo.status
@@ -76,6 +90,9 @@ export class TodosComponent implements OnInit, AfterViewInit {
   }
 
   openDeleteConfirmDialog(id: string) {
-    console.log(id);
+    this.dialog.open(TodosConfirmDeleteDialogComponent, {
+      width: '400px',
+      data: { todoId: id }
+    });
   }
 }
